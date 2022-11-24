@@ -1,0 +1,44 @@
+:: Create
+GAIRoute--> /process/create
+GAIJson --> {
+                "table_name": "check_item",
+                "value": {
+                    "check_item": "naaef",
+                    "check_item_description": "naaef"
+                }
+            }
+
+
+:: GET ALL ITEM ROUTE - GET ALL ITEM DELETE JSON
+GAIRoute--> /process/get_all_item
+GAIJson--> {"table_name" : "process"}
+
+
+:: UPDATE ROUTE - UPDATE JSON
+URoute--> /process/update_item_by_id/{id}
+UJson-->  {"table_name" : "unit","value":{"unit_id":2,"unit":"satın almax"}}
+
+
+:: DELETE ROUTE - DELETE JSON
+DRoute--> /process/delete_item_by_id/{id}
+DJson--> {"table_name" : "unit","value":{"unit_id":1}}
+
+
+:: GET INNER ROUTE -  GET INNER JSON
+GAIRoute--> /process/get_inner_table
+GAIJson--> {
+                "table_nam": "",
+                "value": [
+                    {
+                        "table_name": "unit_category",
+                        "column_name": "unit_category_id",
+                        "column_value": 4
+                    },
+                    {
+                        "table_name": "unit",
+                        "column_name": "unit_id",
+                        "column_value": 2
+                    }
+                ]
+            }
+
