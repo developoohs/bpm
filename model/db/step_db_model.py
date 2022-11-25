@@ -145,6 +145,7 @@ class Script(Base):
     description = Column(Text,unique=True)
     level = Column(SmallInteger)
 
+#sqlalchemy model dict
 def db_model_dict(table_name:str):
     #"process":Process,
     response_step_dict={"process":Process,

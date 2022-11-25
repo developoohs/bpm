@@ -10,17 +10,13 @@ from repository.crud import db_inner_query
 
 #bir tablo adı alıyor ve clientten gelen sözlük tipindeki değeri  alıyor
 #db_model_dict fonksiyonu karşılık gelen
-def request_model_cast_for_db(table_name:str ,value:dict=None):
+def db_model_cast(table_name:str ,value:dict=None):
 #veritabanına kayıt edilmesi için clientten gelen sözlükteki value değerlerinin kayıt edilecek veritabanı modeline set edilmesi gerekiyor
 #burada db_model_dict sözlüğünden çağırılan ve clientten gönderilen tablo adının karşılığı sınıf db_model'e değer olarak atanıyor
     db_model = db_model_dict(table_name)
     #ve db_model'in değeri olan sınıf çağırılarak, clientten gelen sözlük tipinde değerler sınıfa set ediliyor.
-    return db_model(**value)
-
-def db_model_cast_for_db(table_name:str ,value:dict):
-    #request_dict()
-    db_model= db_model_dict(table_name)
-    return db_model(**value)
+    value = db_model(**value)
+    return value
 
 def db_id_value(request:dict):
     table_name =request.table_name
@@ -43,6 +39,7 @@ def update_request_solve_for_save(request:dict):
 
 
 def edit_inner_result(result:dict):
+    #client'e gönderilecek veriye ait sözlüğün gereksiz olan ögesini siliyor.
     result =vars(result[0])
     counter = 0
     for i in result:
@@ -58,10 +55,15 @@ def inner_create(db,value):
     response_dict={}
     for v in value:
         table_name=v["table_name"]
+        #sqlalchemy model dict
         db_model = db_model_dict(table_name)
+        #python nesnesi olarak çağırılan sütun ismi
         column_name = eval(db_model.__name__ +"."+v["column_name"])
+        #python nesnesi olarak çağırılan fk_sütun ismi
         fk_column_name = eval("Process" +".fk_"+ table_name)
+        #client'ten gelen sütun değeri
         column_value = v["column_value"]
+        #inner join işlemi
         result = db_inner_query(db,db_model,fk_column_name,column_name,column_value)
         if result != []:
             response_value = edit_inner_result(result)
@@ -70,3 +72,11 @@ def inner_create(db,value):
             response_dict ="bulunamadı"
             return response_dict
     return response_dict
+
+
+
+
+"""def db_model_cast_for_db(table_name:str ,value:dict):
+    #request_dict()
+    db_model= db_model_dict(table_name)
+    return db_model(**value)"""

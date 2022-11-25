@@ -21,9 +21,9 @@ def db_create(db:Session,table:Idb):
         db.add(table)
         db.commit()
         db.refresh(table)
-    except Exception as error:
+    except SQLAlchemyError as error:
         db.rollback()
-        return str(error)
+        return str(error.__dict__["orig"])
     return table
 
 def db_get_item(db:Session,table:str):
