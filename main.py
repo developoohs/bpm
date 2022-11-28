@@ -1,5 +1,8 @@
 from typing import *
 from fastapi import FastAPI
+
+from fastapi.middleware.cors import CORSMiddleware
+
 from pydantic import *
 from config import engine
 import router
@@ -15,3 +18,12 @@ app = FastAPI()
 
 app.include_router(router.router, prefix="/process", tags=["process"])
 
+origins = ['*']
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)

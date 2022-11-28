@@ -21,8 +21,10 @@ def db_create(db:Session,table:Idb):
         db.add(table)
         db.commit()
         db.refresh(table)
+        db.close()
     except SQLAlchemyError as error:
         db.rollback()
+        db.close()
         return str(error.__dict__["orig"])
     return table
 

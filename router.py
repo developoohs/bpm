@@ -27,8 +27,18 @@ async def create(request:RequestItem,db:Session=Depends(get_db)):
 @router.post('/get_all_item')
 async def get_all_item(request:RequestItem,db:Session=Depends(get_db)):
     cast_value= db_model_dict(request.table_name)
+    
     item=db_get_item(db,cast_value)
     return Iresponse(code=200,status="Ok",message="Success Fetch Data",result=item).dict(exclude_none=True)
+
+
+@router.get('/get_all')
+async def get_all_item(db:Session=Depends(get_db)):
+    cast_value= db_model_dict("unit")
+    item=db_get_item(db,cast_value)
+   
+    return Iresponse(code=200,status="Ok",message="Success Fetch Data",result=item).dict(exclude_none=True)
+
 
 # :: QUERY AND DİSPLAY AND TABLE by id
 @router.post('/get_item_by_id/{id}')
