@@ -108,6 +108,8 @@ class CheckItem(Base):
     check_item_id = Column(Integer,primary_key=True)
     check_item = Column(String,unique=True)
     description = Column(Text,unique=True)
+    #VERİTABANINA EKLENECEK
+    check_path = Column(Text,unique=True)
     level = Column(SmallInteger)
 
 

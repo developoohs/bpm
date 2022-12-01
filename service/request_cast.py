@@ -67,7 +67,8 @@ def inner_create(db,value):
         result = db_inner_query(db,db_model,fk_column_name,column_name,column_value)
         if result != []:
             response_value = edit_inner_result(result)
-            response_dict[table_name] = response_value
+            response_dict["table_name"] = table_name
+            response_dict["value"] = response_value
         else:
             response_dict ="bulunamadı"
             return response_dict
